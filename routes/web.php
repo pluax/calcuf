@@ -46,3 +46,5 @@ Route::post('/update/transaction', [App\Http\Controllers\statisticsController::c
 Route::get('/user', [App\Http\Controllers\userController::class, 'editUser']);
 
 Route::post('/user/update', [App\Http\Controllers\userController::class, 'updateUser']);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

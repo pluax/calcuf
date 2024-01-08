@@ -26,6 +26,7 @@
         $(document).ready(function() { $("#catrgory-select").select2(); });
 
     </script>
+    <link rel="icon" href="/favicon.ico">
 </head>
 <body>
     <div id="app">
