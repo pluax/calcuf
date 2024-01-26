@@ -187,7 +187,7 @@ class HomeController extends Controller
             $to = $get['dateto'];
             $stats = Transaction::where('user_id',$userId)->whereBetween('date', [$from, $to])
             ->leftJoin('category', 'transaction.category_id', '=', 'category.id')
-            ->select('transaction.*', 'category.name' )
+            ->select('transaction.*', 'category.name' )->orderByDesc('date')
             ->paginate($pages);
             $sum = Transaction::where('user_id',$userId)->whereBetween('date', [$from, $to])->sum('cost');
 

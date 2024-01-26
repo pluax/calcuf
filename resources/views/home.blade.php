@@ -27,7 +27,7 @@
             <div class="col-md-4">
                 Категория
                 <select id=catrgory-select class=form-control name="category">
-                    <option value='0'> Не выбрано ...  </option>
+                    <option value=''> Не выбрано ...  </option>
                 @foreach ($cats as $cat)
                     <option value='{{ $cat["id"] }}' <?php if(isset($_GET['category'])) :
                         if ($cat["id"]==$_GET['category']) :
