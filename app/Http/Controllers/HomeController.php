@@ -100,6 +100,10 @@ class HomeController extends Controller
 
         $stats = Transaction::where('user_id',$userId)->orderByDesc('date')->get();
 
+        if (($stats->count())==0) {
+            return view('homeFirst');
+        }
+
         foreach ($stats as $stat) {
            array_push($dates, mb_substr($stat['date'],0,7));
 
@@ -128,12 +132,12 @@ class HomeController extends Controller
             $sum = Transaction::where('user_id',$userId)->where('transaction.comment', 'like', '%'.$search.'%')->sum('cost');
 
 
-           $graphs = Transaction::where('user_id', 1)->where('cost','<', 0)->where('transaction.comment', 'like', '%'.$search.'%')
+           $graphs = Transaction::where('user_id', $userId)->where('cost','<', 0)->where('transaction.comment', 'like', '%'.$search.'%')
            ->selectRaw("SUM(cost) as co")
            ->selectRaw("category_id as cat")
            ->groupBy('category_id')->orderBy('co')->get();
 
-           $graphsPlus = Transaction::where('user_id', 1)->where('cost','>', 0)->where('transaction.comment', 'like', '%'.$search.'%')
+           $graphsPlus = Transaction::where('user_id', $userId)->where('cost','>', 0)->where('transaction.comment', 'like', '%'.$search.'%')
            ->selectRaw("SUM(cost) as co")
            ->selectRaw("category_id as catPlus")
            ->groupBy('category_id')->orderByDesc('co')->get();
@@ -191,12 +195,12 @@ class HomeController extends Controller
             ->paginate($pages);
             $sum = Transaction::where('user_id',$userId)->whereBetween('date', [$from, $to])->sum('cost');
 
-            $graphs = Transaction::where('user_id', 1)->where('cost','<', 0)->whereBetween('date', [$from, $to])
+            $graphs = Transaction::where('user_id', $userId)->where('cost','<', 0)->whereBetween('date', [$from, $to])
             ->selectRaw("SUM(cost) as co")
             ->selectRaw("category_id as cat")
             ->groupBy('category_id')->orderBy('co')->get();
 
-            $graphsPlus = Transaction::where('user_id', 1)->where('cost','>', 0)->whereBetween('date', [$from, $to])
+            $graphsPlus = Transaction::where('user_id', $userId)->where('cost','>', 0)->whereBetween('date', [$from, $to])
             ->selectRaw("SUM(cost) as co")
             ->selectRaw("category_id as catPlus")
             ->groupBy('category_id')->orderByDesc('co')->get();
@@ -243,12 +247,12 @@ class HomeController extends Controller
             $sum = Transaction::where('user_id',$userId)->sum('cost');
 
 
-           $graphs = Transaction::where('user_id', 1)->where('cost','<', 0)
+           $graphs = Transaction::where('user_id', $userId)->where('cost','<', 0)
            ->selectRaw("SUM(cost) as co")
            ->selectRaw("category_id as cat")
            ->groupBy('category_id')->orderBy('co')->get();
 
-           $graphsPlus = Transaction::where('user_id', 1)->where('cost','>', 0)
+           $graphsPlus = Transaction::where('user_id', $userId)->where('cost','>', 0)
            ->selectRaw("SUM(cost) as co")
            ->selectRaw("category_id as catPlus")
            ->groupBy('category_id')->orderByDesc('co')->get();
